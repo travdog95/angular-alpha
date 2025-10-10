@@ -1,7 +1,5 @@
-import { Component, signal, computed } from '@angular/core';
-import { DUMMY_USERS } from '../dummy-users';
-
-const randomIndex = Math.floor(Math.random() * DUMMY_USERS.length);
+import { Component, computed, EventEmitter, Input, input, Output } from '@angular/core';
+import { type User } from './user.model';
 
 @Component({
   selector: 'app-user',
@@ -9,19 +7,24 @@ const randomIndex = Math.floor(Math.random() * DUMMY_USERS.length);
   templateUrl: './user.html',
   styleUrl: './user.css',
 })
-export class User {
-  // Using signals to manage state
-  selectedUser = signal(DUMMY_USERS[randomIndex]);
-  imagePath = computed(() => 'assets/users/' + this.selectedUser().avatar);
+export class UserComponent {
+  // Using decorators
+  @Input({ required: true }) user!: User;
+  @Output() select = new EventEmitter<string>();
 
-  // Dynamically construct the image path based on the selected user's avatar
-  // get imagePath() {
-  //   return 'assets/users/' + this.selectedUser().avatar;
-  // }
+  // Using signals
+  // avatar = input.required<string>();
+  // name = input.required<string>();
 
-  // Method to select a random user
-  onSelectUser() {
-    const randomIndex = Math.floor(Math.random() * DUMMY_USERS.length);
-    this.selectedUser.set(DUMMY_USERS[randomIndex]);
+  get imagePath() {
+    return `assets/users/${this.user.avatar}`;
+  }
+
+  // Using computed
+  // imagePath = computed(() => `assets/users/${this.avatar()}`);
+
+  onSelectedUser() {
+    // alert(`User ${this.name} selected!`);
+    this.select.emit(this.user.id);
   }
 }
