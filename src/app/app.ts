@@ -1,5 +1,4 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header';
 import { UserComponent } from './user/user';
 import { TasksComponent } from './tasks/tasks';
@@ -11,7 +10,7 @@ import { DUMMY_USERS } from './dummy-users';
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class App {
+export class AppComponent {
   protected readonly title = signal('angular-alpha');
   users = DUMMY_USERS;
   selectedUserid?: string;
